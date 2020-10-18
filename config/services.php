@@ -33,7 +33,12 @@ return [
     'github' => [
         'client_id' => env('GITHUB_CLIENT_ID'),
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
-        'redirect' => 'http://127.0.0.1:8000/auth/github/callback',
+        'redirect' => env('GITHUB_CALLBACK'),
     ],
 
+    'twitter' => [
+        'client_id' => env('TWITTER_CLIENT_ID'),
+        'client_secret' => env('TWITTER_CLIENT_SECRET'),
+        'redirect' => env('TWITTER_CALLBACK'),
+    ],
 ];

@@ -19,11 +19,15 @@ class SocialLoginController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function redirectToProvider()
+    public function redirectToProvider($driver)
     {
-        return Socialite::driver('github')
-            ->scopes(['read:user', 'public_repo'])
-            ->redirect();
+        if (config()->has('services.' . $driver)) {
+            return Socialite::driver($driver)
+                //->scopes(['read:user', 'public_repo'])
+                ->redirect();
+        } else {
+            abort(404);
+        }
     }
 
     /**
@@ -32,16 +36,15 @@ class SocialLoginController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function handleProviderCallback()
+    public function handleProviderCallback($driver)
     {
         try {
-            $user = Socialite::driver('github')->user();
+            $user = Socialite::driver($driver)->user();
         } catch (Exception $e) {
             return url('/');
         }
-
         $authUser = User::where('email', $user->getEmail())->first();
-        $defaultPassword = Str::random(10);
+        $defaultPassword = Str::random(config('auth.password_length'));
 
         if ($authUser == null) {
             $authUser = User::create([
@@ -51,7 +54,6 @@ class SocialLoginController extends Controller
             ]);
             Mail::to($authUser)->send(new AccountInfo($defaultPassword));
         }
-        dd($user);
         Auth::loginUsingId($authUser->id, true);
         return redirect()->route('dashboard');
     }

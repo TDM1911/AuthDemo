@@ -32,15 +32,6 @@
                 </label>
             </div>
 
-            <div class="flex items-center justify-center mt-4">
-                <span class="mr-1">
-                    <img src="{{ asset('storage/github-brands.svg') }}" style="height: 20px">
-                </span>
-                <a class="hover:text-gray-900" href="{{ route('social') }}">
-                    {{ __('Login with Github') }}
-                </a>
-            </div>
-
             <div class="flex items-center justify-end mt-4">
                 @if (Route::has('password.request'))
                     <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
@@ -53,5 +44,27 @@
                 </x-jet-button>
             </div>
         </form>
+
+        <hr class="mt-4">
+
+        <div class="flex items-center justify-center mt-4">
+            <a class="btn bg-transparent hover:bg-black text-black hover:text-white py-2 px-4 border border-gray-500 hover:border-transparent rounded w-full text-center" href="{{ route('social', ['github']) }}">
+                <i class="fab fa-github"></i>
+                {{ __('Login with Github') }}
+            </a>
+        </div>
+
+        <div class="flex items-center justify-center mt-4">
+            <a class="btn bg-transparent hover:bg-blue-500 text-blue-500 hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded w-full text-center" href="{{ route('social', ['twitter']) }}">
+                <i class="fab fa-twitter"></i>
+                {{ __('Login with Twitter') }}
+            </a>
+        </div>
+        
+        <div class="flex items-center justify-center mt-4">
+            <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('register') }}">
+                {{ __('Don\'t have an account yet? Sign up.') }}
+            </a>
+        </div>
     </x-jet-authentication-card>
 </x-guest-layout>
