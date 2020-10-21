@@ -39,7 +39,11 @@ class SocialLoginController extends Controller
     public function handleProviderCallback($driver)
     {
         try {
-            $user = Socialite::driver($driver)->user();
+            if (config()->has('services.' . $driver)) {
+                $user = Socialite::driver($driver)->user();
+            } else {
+                abort(404);
+            }
         } catch (Exception $e) {
             return url('/');
         }
